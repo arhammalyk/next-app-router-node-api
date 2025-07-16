@@ -1,47 +1,18 @@
-// 'use client';
-
-// import LoginForm from "@/components/auth/LoginForm";
-// import { useEffect, useState } from "react";
-
-// export default function LoginPage() {
-//   const [name, setName] = useState('')
-//   const getUser = async () => {
-//     const res = await fetch("http://localhost:3000/api/getUser");
-//     const data = await res.json();
-//     return data.name
-//   }
-//   useEffect(() => {
-//     const fetchUser = async () => {
-//       const userName = await getUser();
-//       setName(userName);
-//     };
-//     fetchUser();
-//   }, []);
-//   return (
-//     <main style={{ textAlign: 'center', padding: '2rem' }}>
-//       <p>{name}my name</p>
-//       <h1>Login Page</h1>
-//       <LoginForm />
-//     </main>
-//   );
-// }
-
 export const dynamic = "force-dynamic";
 
 import LoginForm from "../../components/auth/LoginForm";
 
 export default function LoginPage() {
-  const getUser = async () => {
-    const res = await fetch("http://localhost:3000/api/getUser");
-    const data = await res.json();
-    return data.name
-  }
-  const name = getUser()
   return (
-    <main style={{ textAlign: 'center', padding: '2rem' }}>
-      <p>{name}my name</p>
-      <h1>Login Page</h1>
-      <LoginForm />
+    <main className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-blue-100 p-4">
+      <div className="bg-white rounded-2xl shadow-xl p-8 w-full max-w-md flex flex-col items-center">
+        <h1 className="text-3xl font-bold text-blue-800 mb-2">Login</h1>
+        <p className="text-blue-600 mb-6">Sign in to your account to continue</p>
+        <LoginForm />
+        <div className="mt-6 text-sm text-gray-600">
+          Don&apos;t have an account? <a href="/signup" className="text-blue-600 hover:underline">Sign up</a>
+        </div>
+      </div>
     </main>
   );
 }
