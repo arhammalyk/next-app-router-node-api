@@ -5,7 +5,7 @@ import { useState } from "react";
 export default function LoginForm() {
   const [form, setForm] = useState({ username: "", password: "" });
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [error, setError] = useState(""); // <-- This is now used in the error display below
   const [success, setSuccess] = useState("");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -30,8 +30,8 @@ export default function LoginForm() {
       } else {
         setError(data.message || "Login failed.");
       }
-    } catch (error) {
-      setError("An error occurred. Please try again.");
+    } catch (err) {
+      setError(`An error occurred. Please try again. ${err}`);
     } finally {
       setLoading(false);
     }
