@@ -10,9 +10,7 @@ export const Header = () => {
         </Link>
         <nav className="flex gap-4 text-blue-700 font-medium">
           <Link href="/" className="hover:text-blue-900 transition">Home</Link>
-          <Link href="/login" className="hover:text-blue-900 transition">Login</Link>
-          <Link href="/signup" className="hover:text-blue-900 transition">Sign Up</Link>
-        </nav>
+          <Link href="/login" className="hover:text-blue-900 transition">Login</Link>   </nav>
       </div>
     </header>
   )
