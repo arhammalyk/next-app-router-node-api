@@ -18,6 +18,8 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    //  0 (customer), 1 (admin)
+    role: { type: Number, default: 0 },
   },
   { timestamps: true }
 )

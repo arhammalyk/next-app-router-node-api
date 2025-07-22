@@ -1,12 +1,17 @@
 'use client';
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { login } from "../../apicalls/services/user";
+import { useToast } from "../ui/Toaster";
+import { useAuth } from '../../context/AuthContext';
+import { useRouter } from 'next/navigation';
 
 export default function LoginForm() {
   const [form, setForm] = useState({ username: "", password: "" });
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(""); // <-- This is now used in the error display below
-  const [success, setSuccess] = useState("");
+  const { showToast } = useToast();
+  const { setUser } = useAuth();
+  const router = useRouter();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -16,32 +21,24 @@ export default function LoginForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    setError("");
-    setSuccess("");
     try {
-      const res = await fetch("/api/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: form.username, password: form.password })
-      });
-      const data = await res.json();
-      if (data.success) {
-        setSuccess(data.message || "Login successful!");
-      } else {
-        setError(data.message || "Login failed.");
+      const { success, user } = await login(form.username, form.password);
+      if (!success) {
+        showToast("Login failed.", "error");
+        return;
       }
+      setUser(user);
+      showToast("Login successful!", "success");
+      router.push('/dashboard');
     } catch (err) {
-      setError(`An error occurred. Please try again. ${err}`);
+      showToast(`An error occurred. Please try again. ${err}`, "error");
     } finally {
       setLoading(false);
     }
   };
 
-
   return (
     <form onSubmit={handleSubmit} className="w-full flex flex-col gap-4">
-      {error && <div className="bg-red-100 text-red-700 px-4 py-2 rounded">{error}</div>}
-      {success && <div className="bg-green-100 text-green-700 px-4 py-2 rounded">{success}</div>}
       <div className="flex flex-col gap-1">
         <label htmlFor="username" className="text-sm font-medium text-blue-800">Email</label>
         <input

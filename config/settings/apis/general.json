@@ -1,0 +1,14 @@
+{
+  "customer": {
+    "post": [],
+    "get": ["getUsers"],
+    "put": ["updateUser"],
+    "delete": []
+  },
+  "admin": {
+    "post": ["addCredits"],
+    "get": ["getUsers"],
+    "put": ["updateUser"],
+    "delete": []
+  }
+}

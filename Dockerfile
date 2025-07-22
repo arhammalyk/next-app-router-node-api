@@ -1,6 +1,9 @@
 # Use official Node.js image as the base
 FROM node:18-alpine
 
+# Install Redis
+RUN apk add --no-cache redis
+
 # Set working directory
 WORKDIR /app
 
@@ -16,8 +19,8 @@ COPY . .
 # Build the Next.js app
 RUN npm run build
 
-# Expose the port Next.js runs on
-EXPOSE 3000
+# Expose ports
+EXPOSE 3000 6379
 
-# Start the app
-CMD ["npm", "start"] 
+# Start both Redis and the app
+CMD sh -c "redis-server --daemonize yes && npm start"
