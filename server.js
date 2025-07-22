@@ -1,25 +1,27 @@
-let config = require("config")
-const express = require("express")
-let fs = require("fs")
-const next = require("next")
-const connectDB = require("./node/DB/connect")
-const userRoutes = require("./node/routes/userRoutes")
-const { Server } = require("https")
-const apisMiddleware = require("./node/middlewares/apisMiddleware")
+require("dotenv").config();
 
-const port = process.env.PORT || 3000
-const dev = process.env.NODE_ENV !== "production"
+let config = require("config");
+const express = require("express");
+let fs = require("fs");
+const next = require("next");
+const connectDB = require("./node/DB/connect");
+const userRoutes = require("./node/routes/userRoutes");
+const { Server } = require("https");
+const apisMiddleware = require("./node/middlewares/apisMiddleware");
 
-const app = next({ dev })
-const handle = app.getRequestHandler()
+const port = process.env.PORT || 3000;
+const dev = process.env.NODE_ENV !== "production";
+
+const app = next({ dev });
+const handle = app.getRequestHandler();
 
 app.prepare().then(async () => {
-  await connectDB()
-  const server = express()
-  server.use(express.json())
+  await connectDB();
+  const server = express();
+  server.use(express.json());
 
-  var apisContent = fs.readFileSync(config.apisFileName)
-  var jsonApis = JSON.parse(apisContent)
+  var apisContent = fs.readFileSync(config.apisFileName);
+  var jsonApis = JSON.parse(apisContent);
 
   // Allowed Apis on this server
   // server.use(function (req, res, next) {
@@ -27,13 +29,13 @@ app.prepare().then(async () => {
   // })
 
   // Use user routes for /api
-  server.use("/api", userRoutes)
+  server.use("/api", userRoutes);
 
   server.all("*", (req, res) => {
-    return handle(req, res)
-  })
+    return handle(req, res);
+  });
 
   server.listen(port, () => {
-    console.log(`> Ready on http://localhost:${port}`)
-  })
-})
+    console.log(`> Ready on http://localhost:${port}`);
+  });
+});
